@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./vars.css">
+  <link rel="stylesheet" href="./style.css">
+  
+  
+  <style>
+   a,
+   button,
+   input,
+   select,
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   * {
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0;
+       border: none;
+       text-decoration: none;
+       background: none;
+   
+       -webkit-font-smoothing: antialiased;
+   }
+   
+   menu, ol, ul {
+       list-style-type: none;
+       margin: 0;
+       padding: 0;
+   }
+   </style>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="cihuy-2">
+    <div class="background"></div>
+    
+    <!-- Navigation -->
+    <div class="top-nav">
+      <div class="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <button class="run-btn">Run Simulation</button>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Title -->
+      <h1 class="maze-solve-algorithm">MAZE SOLVE ALGORITHM</h1>
+
+      <!-- Icon Section -->
+      <div class="icon-section">
+        <div class="icon-box">
+          <div class="icon-placeholder"></div>
+        </div>
+      </div>
+
+      <!-- Demo Algorithm -->
+      <div class="algoritma-demo">
+        <div class="code-demo">procedure CariElemenTerbesar(a1, a2, ..., an)
+  maks ← a1
+  k ← 2
+  while k <= n {
+    if (ak > maks) {
+      maks ← ak
+    }
+    k ← k + 1
+  }</div>
+      </div>
+
+      <!-- DFS Section -->
+      <div class="dfs-section">
+        <div class="dfs-title">DFS ITERATIF</div>
+        <div class="dfs-icon-box">
+          <div class="dfs-icon"></div>
+        </div>
+      </div>
+
+      <!-- Algorithm Implementation -->
+      <div class="algoritma-iteratif">
+        <div class="code-snippet"><span class="keyword">def</span> <span class="function">is_valid</span>(maze, visited, row, col, rows, cols):
+    <span class="keyword">return</span> (<span class="number">0</span> <= row < rows <span class="keyword">and</span> <span class="number">0</span> <= col < cols <span class="keyword">and</span>
+            maze[row][col] == <span class="number">0</span> <span class="keyword">and not</span> visited[row][col])
+
+<span class="keyword">def</span> <span class="function">dfs_recursive</span>(maze, visited, row, col, rows, cols):
+    <span class="keyword">if</span> row == rows - <span class="number">1</span> <span class="keyword">and</span> col == cols - <span class="number">1</span>:
+        <span class="keyword">return</span> <span class="number">True</span>  <span class="comment"># Ditemukan end</span>
+    
+    visited[row][col] = <span class="number">True</span>
+    
+    <span class="comment"># Arah: atas, bawah, kiri, kanan</span>
+    directions = [(-<span class="number">1</span>, <span class="number">0</span>), (<span class="number">1</span>, <span class="number">0</span>), (<span class="number">0</span>, -<span class="number">1</span>), (<span class="number">0</span>, <span class="number">1</span>)]
+    <span class="keyword">for</span> dr, dc <span class="keyword">in</span> directions:
+        new_row, new_col = row + dr, col + dc
+        <span class="keyword">if</span> <span class="function">is_valid</span>(maze, visited, new_row, new_col, rows, cols):
+            <span class="keyword">if</span> <span class="function">dfs_recursive</span>(maze, visited, new_row, new_col, rows, cols):
+                <span class="keyword">return</span> <span class="number">True</span>
+    
+    <span class="keyword">return</span> <span class="number">False</span>
+
+<span class="keyword">def</span> <span class="function">solve_maze_recursive</span>(maze):
+    <span class="keyword">if not</span> maze <span class="keyword">or not</span> maze[<span class="number">0</span>]:
+        <span class="keyword">return</span> <span class="number">False</span>
+    rows, cols = <span class="function">len</span>(maze), <span class="function">len</span>(maze[<span class="number">0</span>])
+    visited = [[<span class="number">False</span>] * cols <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="function">range</span>(rows)]
+    <span class="keyword">return</span> <span class="function">dfs_recursive</span>(maze, visited, <span class="number">0</span>, <span class="number">0</span>, rows, cols)</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

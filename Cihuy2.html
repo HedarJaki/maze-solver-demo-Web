@@ -1,0 +1,369 @@
+<div class="cihuy-2">
+  <div class="color"></div>
+  <div class="background">
+    <img class="grid-1" src="grid-10.png" />
+    <img class="grid-2" src="grid-20.png" />
+    <img class="grid-3" src="grid-30.png" />
+    <img class="grid-4" src="grid-40.png" />
+    <img class="grid-5" src="grid-50.png" />
+    <img class="grid-6" src="grid-60.png" />
+    <img class="grid-7" src="grid-70.png" />
+    <img class="grid-8" src="grid-80.png" />
+  </div>
+  <div class="dfs-iteratif">
+    <div class="rectangle-13"></div>
+    <img class="group-2" src="group-20.svg" />
+    <div class="dfs-iteratif2">DFS ITERATIF</div>
+  </div>
+  <div class="algoritma-iteratif">
+    <div class="rectangle-11"></div>
+    <div class="code-snippet">
+      <span>
+        <span class="code-snippet-span">def</span>
+        <span class="code-snippet-span2">is_valid</span>
+        <span class="code-snippet-span">
+          (maze, visited, row, col, rows, cols):
+          <br />
+        </span>
+        <span class="code-snippet-span3">return</span>
+        <span class="code-snippet-span">(</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span3">&lt;=</span>
+        <span class="code-snippet-span">row</span>
+        <span class="code-snippet-span3">&lt;</span>
+        <span class="code-snippet-span">rows and</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span3">&lt;=</span>
+        <span class="code-snippet-span">col</span>
+        <span class="code-snippet-span3">&lt;</span>
+        <span class="code-snippet-span">
+          cols and
+          <br />
+          maze[row][col]
+        </span>
+        <span class="code-snippet-span3">==</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">
+          and not visited[row][col])
+          <br />
+        </span>
+        <span class="code-snippet-span5">
+          <br />
+        </span>
+        <span class="code-snippet-span">def</span>
+        <span class="code-snippet-span2">dfs_recursive</span>
+        <span class="code-snippet-span">
+          (maze, visited, row, col, rows, cols):
+          <br />
+        </span>
+        <span class="code-snippet-span3">if</span>
+        <span class="code-snippet-span">row</span>
+        <span class="code-snippet-span3">==</span>
+        <span class="code-snippet-span">rows</span>
+        <span class="code-snippet-span3">-</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span4">1</span>
+        <span class="code-snippet-span">and col</span>
+        <span class="code-snippet-span3">==</span>
+        <span class="code-snippet-span">cols</span>
+        <span class="code-snippet-span3">-</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span4">1</span>
+        <span class="code-snippet-span">
+          :
+          <br />
+        </span>
+        <span class="code-snippet-span3">return</span>
+        <span class="code-snippet-span">
+          True # Ditemukan end
+          <br />
+          <br />
+          visited[row][col]
+        </span>
+        <span class="code-snippet-span3">=</span>
+        <span class="code-snippet-span">
+          True
+          <br />
+          <br />
+          #
+        </span>
+        <span class="code-snippet-span2">Arah</span>
+        <span class="code-snippet-span">
+          : atas, bawah, kiri, kanan
+          <br />
+          directions
+        </span>
+        <span class="code-snippet-span3">=</span>
+        <span class="code-snippet-span">[(</span>
+        <span class="code-snippet-span3">-</span>
+        <span class="code-snippet-span4">1</span>
+        <span class="code-snippet-span">,</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">), (</span>
+        <span class="code-snippet-span4">1</span>
+        <span class="code-snippet-span">,</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">), (</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">,</span>
+        <span class="code-snippet-span3">-</span>
+        <span class="code-snippet-span4">1</span>
+        <span class="code-snippet-span">), (</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">,</span>
+        <span class="code-snippet-span4">1</span>
+        <span class="code-snippet-span">
+          )]
+          <br />
+          for dr, dc
+        </span>
+        <span class="code-snippet-span3">in</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span2">directions</span>
+        <span class="code-snippet-span">
+          :
+          <br />
+          new_row, new_col
+        </span>
+        <span class="code-snippet-span3">=</span>
+        <span class="code-snippet-span">row</span>
+        <span class="code-snippet-span3">+</span>
+        <span class="code-snippet-span">dr, col</span>
+        <span class="code-snippet-span3">+</span>
+        <span class="code-snippet-span">
+          dc
+          <br />
+        </span>
+        <span class="code-snippet-span3">if</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span2">is_valid</span>
+        <span class="code-snippet-span">
+          (maze, visited, new_row, new_col, rows, cols):
+          <br />
+        </span>
+        <span class="code-snippet-span3">if</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span2">dfs_recursive</span>
+        <span class="code-snippet-span">
+          (maze, visited, new_row, new_col, rows, cols):
+          <br />
+        </span>
+        <span class="code-snippet-span3">return</span>
+        <span class="code-snippet-span">
+          True
+          <br />
+          <br />
+        </span>
+        <span class="code-snippet-span3">return</span>
+        <span class="code-snippet-span">
+          False
+          <br />
+        </span>
+        <span class="code-snippet-span5">
+          <br />
+        </span>
+        <span class="code-snippet-span">def</span>
+        <span class="code-snippet-span2">solve_maze_recursive</span>
+        <span class="code-snippet-span">
+          (maze):
+          <br />
+        </span>
+        <span class="code-snippet-span3">if</span>
+        <span class="code-snippet-span">not maze or not maze[</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">
+          ]:
+          <br />
+        </span>
+        <span class="code-snippet-span3">return</span>
+        <span class="code-snippet-span">
+          False
+          <br />
+          rows, cols
+        </span>
+        <span class="code-snippet-span3">=</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span2">len</span>
+        <span class="code-snippet-span">(maze),</span>
+        <span class="code-snippet-span2">len</span>
+        <span class="code-snippet-span">(maze[</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">
+          ])
+          <br />
+          visited
+        </span>
+        <span class="code-snippet-span3">=</span>
+        <span class="code-snippet-span">[[False]</span>
+        <span class="code-snippet-span3">*</span>
+        <span class="code-snippet-span">cols for _</span>
+        <span class="code-snippet-span3">in</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span2">range</span>
+        <span class="code-snippet-span">
+          (rows)]
+          <br />
+        </span>
+        <span class="code-snippet-span3">return</span>
+        <span class="code-snippet-span"></span>
+        <span class="code-snippet-span2">dfs_recursive</span>
+        <span class="code-snippet-span">(maze, visited,</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">,</span>
+        <span class="code-snippet-span4">0</span>
+        <span class="code-snippet-span">, rows, cols)</span>
+      </span>
+    </div>
+  </div>
+  <div class="algoritma-demo">
+    <div class="rectangle-112"></div>
+    <div
+      class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1"
+    >
+      <span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+          procedure
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span2"
+        >
+          CariElemenTerbesar
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+          (a1, a2, ..., an)
+          <br />
+          maks ← a1
+          <br />
+          k ←
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span3"
+        >
+          2
+          <br />
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+              while k
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span3"
+        >
+          &lt;=
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+          n
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span4"
+        >
+          &lcub;
+          <br />
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+                 
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span5"
+        >
+          if
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+          (ak
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span3"
+        >
+          &gt;
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+          maks)
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span4"
+        >
+          &lcub;
+          <br />
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+                  maks
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span3"
+        >
+          ←
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+          ak
+          <br />
+                 
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span4"
+        >
+          &rcub;
+          <br />
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+              k ← k +
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span6"
+        >
+          1
+          <br />
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span"
+        >
+             
+        </span>
+        <span
+          class="procedure-cari-elemen-terbesar-a-1-a-2-an-maks-a-1-k-2-while-k-n-if-ak-maks-maks-ak-k-k-1-span4"
+        >
+          &rcub;
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="group-3">
+    <div class="rectangle-132"></div>
+    <img class="group-22" src="group-21.svg" />
+  </div>
+  <div class="group-7">
+    <div class="rectangle-9"></div>
+    <div class="top-left">
+      <div class="rectangle-1"></div>
+      <div class="rectangle-2"></div>
+      <div class="rectangle-3"></div>
+      <div class="rectangle-4"></div>
+    </div>
+    <div class="top-right">
+      <div class="run-simulation">Run Simulation</div>
+      <div class="rectangle-113"></div>
+    </div>
+  </div>
+  <div class="maze-solve-algorithm">MAZE SOLVE ALGORITHM</div>
+</div>
