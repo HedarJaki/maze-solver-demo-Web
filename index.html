@@ -41,8 +41,8 @@
 <body>
   <div class="cihuy-2">
     <div class="background"></div>
-    
     <!-- Navigation -->
+
     <div class="top-nav">
       <div class="hamburger">
         <div></div>
@@ -59,7 +59,7 @@
       <!-- Icon Section -->
       <div class="icon-section">
         <div class="icon-box">
-          <div class="icon-placeholder"></div>
+            <img src="maze.png" alt="maze" class="icon-placeholder">
         </div>
       </div>
 
@@ -80,7 +80,7 @@
       <div class="dfs-section">
         <div class="dfs-title">DFS ITERATIF</div>
         <div class="dfs-icon-box">
-          <div class="dfs-icon"></div>
+          <img src="maze.png" alt="maze" class="dfs-icon">
         </div>
       </div>
 
@@ -112,6 +112,42 @@
     rows, cols = <span class="function">len</span>(maze), <span class="function">len</span>(maze[<span class="number">0</span>])
     visited = [[<span class="number">False</span>] * cols <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="function">range</span>(rows)]
     <span class="keyword">return</span> <span class="function">dfs_recursive</span>(maze, visited, <span class="number">0</span>, <span class="number">0</span>, rows, cols)</div>
+      </div>
+
+      <div class="dfs-section">
+        <div class="dfs-title">DFS ITERATIF</div>
+        <div class="dfs-icon-box">
+          <img src="maze.png" alt="maze" class="dfs-icon">
+        </div>
+      </div>
+
+      <!-- Algorithm Implementation -->
+      <div class="algoritma-iteratif">
+        <div class="code-snippet">
+<span class="keyword">def</span> <span class="function">solve_maze_iterative</span>(maze):
+    <span class="keyword">if not</span> maze <span class="keyword">or not</span> maze[<span class="number">0</span>]:
+        <span class="keyword">return</span> <span class="number">False</span>
+    rows, cols = <span class="function">len</span>(maze), <span class="function">len</span>(maze[<span class="number">0</span>])
+    visited = <span class="function">set</span> () 
+    stack = [(<span class="number">0</span>, <span class="number">0</span>)]
+    directions = [(<span class="number">-1</span>,<span class="number">0</span>), (<span class="number">1</span>,<span class="number">0</span>), (<span class="number">0</span>,<span class="number">-1</span>), (<span class="number">0</span>,<span class="number">1</span>)]
+  
+    <span class="keyword">while</span>stack:
+      row, col = stack.<span class="function">pop</span>()
+      <span class="keyword">if</span>(row,col) <span class="keyword">in</span>visited:
+        <span class="keyword">continue</span>
+      visited.<span class="function">add</span>((row,col))
+      <span class="keyword">if</span> row == rows <span class="number">-</span> 1 <span class="keyword">and</span> col == cols <span class="number">-</span> 1:
+        <span class="keyword">return</span> <span class="number">True</span>
+      
+      <span class="keyword">for</span> dr, dc <span class="keyword">in</span> directions:
+        new_row, new_col <span class="number">=</span> row <span class="number">+</span> dr, col <span class="number">+</span> dc
+        <span class="keyword">if</span>(<span class="number">0 <=</span> new_row <span class="number"><</span> rows <span class="keyword">and</span>
+           <span class="number">0 <=</span> new_col <span class="number"><</span> cols <span class="keyword">and</span>
+           maze[new_row][new_col] <span class="number">== 0</span> <span class="keyword">and</span>
+           (new_row, new_col) <span class="keyword">not in</span> visited):
+          stack.<span class="function">append</span>((new_row, new_col))
+    <span class="keyword">return</span> <span class="number">False</span></div>
       </div>
     </div>
   </div>
