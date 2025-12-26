@@ -7,7 +7,7 @@ function IterativeSection() {
       <div className="dfs-section">
         <div className="dfs-title">DFS ITERATIF</div>
         <div className="dfs-icon-box">
-          <div className="dfs-icon"></div>
+        <img src={maze} alt="Maze" className="maze-image" />
         </div>
       </div>
 
