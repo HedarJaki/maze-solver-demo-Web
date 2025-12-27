@@ -20,8 +20,8 @@ function RecursiveSection(){
             <span className="number">{'<'}</span><span className="keyword">int</span>,<span className="keyword">int</span><span className="number">{'>>&'}</span> visited,
             vector<span className="number">{'<'}</span>pair<span className="number">{'<'}</span><span className="keyword">int</span>,<span className="keyword">int</span>
             <span className="number">{'>>&'}</span> path){'{\n\n'}
-            {'      '}<span className="keyword">int</span> rows <span className="number">=</span> maze.<span className="function">size()</span>;{'\n'}
-            {'      '}<span className="keyword">int</span> cols <span className="number">=</span> maz[<span className="number">0</span>].<span className="function">size()</span>;{'\n\n'}
+            {'      '}<span className="keyword">int</span> rows = maze.<span className="function">size()</span>;{'\n'}
+            {'      '}<span className="keyword">int</span> cols = maze[<span className="number">0</span>].<span className="function">size()</span>;{'\n\n'}
 
             {'      '}<span className="keyword">if</span>(row <span className="number">{'<'} 0 || </span>row <span className="number">{'>='}</span> rows <span className="number">|| </span>
             col <span className="number">{'< 0 || '}</span> col <span className="number">{'>= '}</span>cols) <span className="keyword">return</span> <span className="number">false</span>;{'\n'}

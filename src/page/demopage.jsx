@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, RotateCcw } from 'lucide-react';
+import "./maze.css"
 
 const SimpleMazeSolver = () => {
   // Fixed maze: 0 = path, 1 = wall
@@ -47,8 +47,7 @@ const SimpleMazeSolver = () => {
     setIsRunning(true);
 
     const visitedCells = [];
-    const finalPath = [];
-    const stack = [[0, 0, [[0, 0]]]]; // [row, col, path]
+    const stack = [[0, 0, [[0, 0]]]];
     const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
     
     let found = false;
@@ -68,7 +67,6 @@ const SimpleMazeSolver = () => {
 
       if (row === gridSize - 1 && col === gridSize - 1) {
         found = true;
-        finalPath.push(...currentPath);
         setPath(currentPath);
         break;
       }
@@ -88,111 +86,98 @@ const SimpleMazeSolver = () => {
     setIsRunning(false);
     
     if (!found) {
-      alert('No solution found!');
+      alert('Tidak ada solusi!');
     }
   };
 
-  const getCellColor = (row, col) => {
-    if (row === 0 && col === 0) return 'bg-green-500';
-    if (row === gridSize - 1 && col === gridSize - 1) return 'bg-red-500';
-    if (FIXED_MAZE[row][col] === 1) return 'bg-gray-800';
-    if (path.some(([r, c]) => r === row && c === col)) return 'bg-yellow-400';
-    if (visited.some(([r, c]) => r === row && c === col)) return 'bg-blue-400';
-    return 'bg-white';
+  const getCellClass = (row, col) => {
+    if (row === 0 && col === 0) return 'cell-start';
+    if (row === gridSize - 1 && col === gridSize - 1) return 'cell-end';
+    if (FIXED_MAZE[row][col] === 1) return 'cell-wall';
+    if (path.some(([r, c]) => r === row && c === col)) return 'cell-path';
+    if (visited.some(([r, c]) => r === row && c === col)) return 'cell-visited';
+    return 'cell-empty';
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 bg-slate-900 rounded-xl">
+    <div className="maze-demo-container">
       {/* Header */}
-      <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-white mb-2">
-          DFS Maze Solver Demo
-        </h2>
-        <p className="text-slate-400">
-          Watch the algorithm find a path from start to end
-        </p>
+      <div className="demo-header">
+        <h2 className="demo-title">DFS Maze Solver Demo</h2>
+        <p className="demo-subtitle">Visualisasi algoritma DFS mencari jalur dari start ke finish</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-          <div className="text-slate-400 text-sm mb-1">Cells Visited</div>
-          <div className="text-white text-2xl font-bold">{stats.visited}</div>
+      <div className="stats-container">
+        <div className="stat-box">
+          <div className="stat-label">Sel Dikunjungi</div>
+          <div className="stat-value">{stats.visited}</div>
         </div>
-        <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-          <div className="text-slate-400 text-sm mb-1">Path Length</div>
-          <div className="text-white text-2xl font-bold">{stats.pathLength}</div>
+        <div className="stat-box">
+          <div className="stat-label">Panjang Jalur</div>
+          <div className="stat-value">{stats.pathLength}</div>
         </div>
       </div>
 
       {/* Controls */}
-      <div className="flex gap-3 mb-6">
+      <div className="controls-container">
         <button
           onClick={solveMazeDFS}
           disabled={isRunning}
-          className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-6 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className={`btn-primary ${isRunning ? 'btn-disabled' : ''}`}
         >
-          <Play className="w-5 h-5" />
-          {isRunning ? 'Running...' : 'Start DFS'}
+          <svg className="btn-icon" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          {isRunning ? 'Berjalan...' : 'Mulai DFS'}
         </button>
         <button
           onClick={resetVisualization}
           disabled={isRunning}
-          className="bg-slate-700 hover:bg-slate-600 text-white py-3 px-6 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className={`btn-secondary ${isRunning ? 'btn-disabled' : ''}`}
         >
-          <RotateCcw className="w-5 h-5" />
+          <svg className="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
           Reset
         </button>
       </div>
 
       {/* Maze Grid */}
-      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 mb-6">
-        <div className="flex justify-center">
-          <div
-            className="inline-grid gap-1 bg-slate-700 p-3 rounded-lg"
-            style={{
-              gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-            }}
-          >
-            {FIXED_MAZE.map((row, rowIndex) =>
-              row.map((_, colIndex) => (
-                <div
-                  key={`${rowIndex}-${colIndex}`}
-                  className={`${getCellColor(rowIndex, colIndex)} transition-all duration-200 rounded-sm border border-slate-600`}
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                  }}
-                />
-              ))
-            )}
-          </div>
+      <div className="maze-grid-container">
+        <div className="maze-grid">
+          {FIXED_MAZE.map((row, rowIndex) =>
+            row.map((_, colIndex) => (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                className={`maze-cell ${getCellClass(rowIndex, colIndex)}`}
+              />
+            ))
+          )}
         </div>
       </div>
 
       {/* Legend */}
-      <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-green-500 rounded"></div>
-            <span className="text-slate-300 text-sm">Start</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-red-500 rounded"></div>
-            <span className="text-slate-300 text-sm">End</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-gray-800 rounded border border-slate-600"></div>
-            <span className="text-slate-300 text-sm">Wall</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-400 rounded"></div>
-            <span className="text-slate-300 text-sm">Visited</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-yellow-400 rounded"></div>
-            <span className="text-slate-300 text-sm">Path</span>
-          </div>
+      <div className="legend-container">
+        <div className="legend-item">
+          <div className="legend-color cell-start"></div>
+          <span>Start</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color cell-end"></div>
+          <span>Finish</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color cell-wall"></div>
+          <span>Dinding</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color cell-visited"></div>
+          <span>Dikunjungi</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color cell-path"></div>
+          <span>Jalur Solusi</span>
         </div>
       </div>
     </div>

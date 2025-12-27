@@ -1,19 +1,18 @@
-import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
+// import { useState } from 'react'
+import './style.css'
 import IterativeSection from './page/iterativePage'
 import RecursiveSection from './page/recursivePage'
+import SimpleMazeSolver from './page/demopage'
+// import { Play, RotateCcw } from 'lucide-react';
 
 function App() {
-  // const [count, setCount] = useState(0)
 
   return (
-    <>
-        <IterativeSection/>
-        <RecursiveSection/>
-        {/* <h1>Hello world</h1> */}
-    </>
+    <div className='cihuy-2'>
+      <SimpleMazeSolver/>
+      <IterativeSection/>
+      <RecursiveSection/>
+    </div>
   )
 }
 
