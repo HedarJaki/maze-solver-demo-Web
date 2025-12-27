@@ -4,7 +4,7 @@ function RecursiveSection(){
     return (
         <>
         <div className="dfs-section">
-        <div className="dfs-title">DFS ITERATIF</div>
+        <div className="dfs-title">DFS REKURSIF</div>
         <div className="dfs-icon-box">
           {/* <img src={maze} alt="maze" className="dfs-icon"/>  */}
         </div>
@@ -12,32 +12,49 @@ function RecursiveSection(){
 
 
       <div className="algoritma-iteratif">
-        <div className="code-snippet"><span className="keyword">def</span> <span className="function">is_valid</span>(maze, visited, row, col, rows, cols):
-    <row><span className="keyword">return</span> (<span className="number">0</span> {'<='} row {'<'} rows <span className="keyword">and</span> <span className="number">0</span> {'<='} col {'<'} cols <span className="keyword">and</span>
-            maze[row][col] == <span className="number">0</span> <span className="keyword">and not</span> visited[row][col])</row>
+        <pre className="code-snippet">
+            <code>
+            <span className="keyword">bool</span><span className="function"> dfs_recursive_helper</span>(vector<span className="number">{'<'}</span>vector
+            <span className="number">{'<'}</span><span className="keyword">int</span>,<span className="keyword">int</span><span className="number">{'>>&'}</span> maze, 
+            <span className="keyword">int</span> row, <span className="keyword">int</span> col, {'\n'}set<span className="number">{'<'}</span>pair
+            <span className="number">{'<'}</span><span className="keyword">int</span>,<span className="keyword">int</span><span className="number">{'>>&'}</span> visited,
+            vector<span className="number">{'<'}</span>pair<span className="number">{'<'}</span><span className="keyword">int</span>,<span className="keyword">int</span>
+            <span className="number">{'>>&'}</span> path){'{\n\n'}
+            {'      '}<span className="keyword">int</span> rows <span className="number">=</span> maze.<span className="function">size()</span>;{'\n'}
+            {'      '}<span className="keyword">int</span> cols <span className="number">=</span> maz[<span className="number">0</span>].<span className="function">size()</span>;{'\n\n'}
 
-<span className="keyword">def</span> <span className="function">dfs_recursive</span>(maze, visited, row, col, rows, cols):
-    <span className="keyword">if</span> row == rows - <span className="number">1</span> <span className="keyword">and</span> col == cols - <span className="number">1</span>:
-        <span className="keyword">return</span> <span className="number">True</span>  <span className="comment"># Ditemukan end</span>
-    
-    visited[row][col] = <span className="number">True</span>
-    
-    <span className="comment"># Arah: atas, bawah, kiri, kanan</span>
-    directions = [(-<span className="number">1</span>, <span className="number">0</span>), (<span className="number">1</span>, <span className="number">0</span>), (<span className="number">0</span>, -<span className="number">1</span>), (<span className="number">0</span>, <span className="number">1</span>)]
-    <span className="keyword">for</span> dr, dc <span className="keyword">in</span> directions:
-        new_row, new_col = row + dr, col + dc
-        <span className="keyword">if</span> <span className="function">is_valid</span>(maze, visited, new_row, new_col, rows, cols):
-            <span className="keyword">if</span> <span className="function">dfs_recursive</span>(maze, visited, new_row, new_col, rows, cols):
-                <span className="keyword">return</span> <span className="number">True</span>
-    
-    <span className="keyword">return</span> <span className="number">False</span>
+            {'      '}<span className="keyword">if</span>(row <span className="number">{'<'} 0 || </span>row <span className="number">{'>='}</span> rows <span className="number">|| </span>
+            col <span className="number">{'< 0 || '}</span> col <span className="number">{'>= '}</span>cols) <span className="keyword">return</span> <span className="number">false</span>;{'\n'}
+            {'      '}<span className="keyword">if</span>(maze[row][col] <span className="number">== 1</span>) <span className="keyword">return</span> <span className="number">false</span>;{'\n'}
+            {'      '}<span className="keyword">if</span>(visited.<span className="function">find</span>({'{row, col}'}) <span className="number">!=</span> visited.<span className="function">end</span>())
+            <span className="keyword"> return</span> <span className="number">false</span>;{'\n\n'}
 
-<span className="keyword">def</span> <span className="function">solve_maze_recursive</span>(maze):
-    <span className="keyword">if not</span> maze <span className="keyword">or not</span> maze[<span className="number">0</span>]:
-        <span className="keyword">return</span> <span className="number">False</span>
-    rows, cols = <span className="function">len</span>(maze), <span className="function">len</span>(maze[<span className="number">0</span>])
-    visited = [[<span className="number">False</span>] * cols <span className="keyword">for</span> _ <span className="keyword">in</span> <span className="function">range</span>(rows)]
-    <span className="keyword">return</span> <span className="function">dfs_recursive</span>(maze, visited, <span className="number">0</span>, <span className="number">0</span>, rows, cols)</div>
+            {'      '}visited.<span className="function">insert</span>({'{row, col}'});{'\n'}
+            {'      '}path.<span className="function">push_back</span>({'{row, col}'});{'\n\n'}
+
+            {'      '}<span className="keyword">if</span>(row <span className="number">==</span> rows <span className="number">-1 {'&&'}</span> col <span className="number">==</span> cols<span className="number">-1</span>) 
+            <span className="keyword"> return</span> <span className="number">true</span>;{'\n\n'}
+
+            {'      '}<span className="keyword">if</span>(dfs_recursive_helper(maze, row<span className="number">-1</span>, col, visited, path))<span className="keyword">return</span> <span className="number">true</span>;{'\n'}
+            {'      '}<span className="keyword">if</span>(dfs_recursive_helper(maze, row<span className="number">+1</span>, col, visited, path))<span className="keyword">return</span> <span className="number">true</span>;{'\n'}
+            {'      '}<span className="keyword">if</span>(dfs_recursive_helper(maze, row, col<span className="number">-1</span>, visited, path))<span className="keyword">return</span> <span className="number">true</span>;{'\n'}
+            {'      '}<span className="keyword">if</span>(dfs_recursive_helper(maze, row, col<span className="number">+1</span>, visited, path))<span className="keyword">return</span> <span className="number">true</span>;{'\n\n'}
+            
+            {'      '}path.<span className="function">pop_back</span>();{'\n'}
+            {'      '}<span className="keyword">return</span> <span className="number">false</span>;{'\n'}
+            {'}\n\n'}
+
+            <span className="keyword">bool</span> dfs_recursive (vector<span className="number">{'<'}</span>vector
+            <span className="number">{'<'}</span><span className="keyword">int</span>,<span className="keyword">int</span><span className="number">{'>>&'}</span> maze, vector<span className="number">{'<'}</span>pair
+            <span className="number">{'<'}</span><span className="keyword">int</span>,<span className="keyword">int</span>
+            <span className="number">{'>>&'}</span> path){'{\n'}
+            {'      '}<span className="keyword">if</span> (maze.<span className="function">empty()</span><span className="number"> ||</span> maze[<span className="number">0</span>].<span className="function">empty()</span>) 
+            <span className="keyword"> return</span> <span className="number">false</span>; {'\n\n'}
+            {'      '}set<span className="number">{'<'}</span>pair<span className="number">{'<'}</span><span className="keyword">int</span>,<span className="keyword">int</span><span className="number">{'>>&'}</span> visited;{'\n'}
+            {'      '}<span className="keyword">return</span> <span className="function"> dfs_recursive_helper</span>(maze, <span className="number">0</span>,<span className="number"> 0</span>, visited, path);{'\n'}
+            {'}'}
+            </code>
+        </pre>
       </div>
         </>
     )
