@@ -224,7 +224,7 @@ const DualMazeSolver = () => {
         .dual-maze-container {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 20px;
+          
         }
 
         @media (max-width: 1400px) {
@@ -233,7 +233,7 @@ const DualMazeSolver = () => {
           }
         }
       `}</style>
-      <div className="main-container">
+      <div className="">
         {/* Header Utama */}
         <div className="main-header">
           <h1 className="main-title">Perbandingan DFS Iteratif vs Rekursif</h1>
