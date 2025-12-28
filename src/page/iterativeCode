@@ -1,0 +1,188 @@
+//iteratif
+import React, { useState, useEffect, useRef } from 'react';
+import "./maze.css"
+
+const SimpleMazeSolver = () => {
+  // Fixed maze: 0 = path, 1 = wall
+  const FIXED_MAZE = [
+    [0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
+    [0, 1, 0, 1, 1, 0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+    [1, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+    [0, 1, 1, 1, 0, 1, 1, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 0, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0]
+  ];
+
+  const gridSize = FIXED_MAZE.length;
+  const [visited, setVisited] = useState([]);
+  const [path, setPath] = useState([]);
+  const [isRunning, setIsRunning] = useState(false);
+  const [stats, setStats] = useState({ visited: 0, pathLength: 0 });
+
+  const resetVisualization = () => {
+    setVisited([]);
+    setPath([]);
+    setIsRunning(false);
+    setStats({ visited: 0, pathLength: 0 });
+  };
+
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  const isValid = (row, col, currentVisited) => {
+    return (
+      row >= 0 && row < gridSize &&
+      col >= 0 && col < gridSize &&
+      FIXED_MAZE[row][col] === 0 &&
+      !currentVisited.some(([r, c]) => r === row && c === col)
+    );
+  };
+
+  const solveMazeDFS = async () => {
+    if (isRunning) return;
+    
+    resetVisualization();
+    setIsRunning(true);
+
+    const visitedCells = [];
+    const stack = [[0, 0, [[0, 0]]]];
+    const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+    
+    let found = false;
+
+    while (stack.length > 0 && !found) {
+      const [row, col, currentPath] = stack.pop();
+      
+      if (visitedCells.some(([r, c]) => r === row && c === col)) continue;
+      
+      visitedCells.push([row, col]);
+      setVisited([...visitedCells]);
+
+      setStats({
+        visited: visitedCells.length,
+        pathLength: currentPath.length
+      });
+
+      if (row === gridSize - 1 && col === gridSize - 1) {
+        found = true;
+        setPath(currentPath);
+        break;
+      }
+
+      await sleep(50);
+
+      for (const [dr, dc] of directions) {
+        const newRow = row + dr;
+        const newCol = col + dc;
+        
+        if (isValid(newRow, newCol, visitedCells)) {
+          stack.push([newRow, newCol, [...currentPath, [newRow, newCol]]]);
+        }
+      }
+    }
+
+    setIsRunning(false);
+    
+    if (!found) {
+      alert('Tidak ada solusi!');
+    }
+  };
+
+  const getCellClass = (row, col) => {
+    if (row === 0 && col === 0) return 'cell-start';
+    if (row === gridSize - 1 && col === gridSize - 1) return 'cell-end';
+    if (FIXED_MAZE[row][col] === 1) return 'cell-wall';
+    if (path.some(([r, c]) => r === row && c === col)) return 'cell-path';
+    if (visited.some(([r, c]) => r === row && c === col)) return 'cell-visited';
+    return 'cell-empty';
+  };
+
+  return (
+    <div className="maze-demo-container">
+      {/* Header */}
+      <div className="demo-header">
+        <h2 className="demo-title">DFS Maze Solver Demo</h2>
+        <p className="demo-subtitle">Visualisasi algoritma DFS mencari jalur dari start ke finish</p>
+      </div>
+
+      {/* Stats */}
+      <div className="stats-container">
+        <div className="stat-box">
+          <div className="stat-label">Sel Dikunjungi</div>
+          <div className="stat-value">{stats.visited}</div>
+        </div>
+        <div className="stat-box">
+          <div className="stat-label">Panjang Jalur</div>
+          <div className="stat-value">{stats.pathLength}</div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="controls-container">
+        <button
+          onClick={solveMazeDFS}
+          disabled={isRunning}
+          className={`btn-primary ${isRunning ? 'btn-disabled' : ''}`}
+        >
+          <svg className="btn-icon" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          {isRunning ? 'Berjalan...' : 'Mulai DFS'}
+        </button>
+        <button
+          onClick={resetVisualization}
+          disabled={isRunning}
+          className={`btn-secondary ${isRunning ? 'btn-disabled' : ''}`}
+        >
+          <svg className="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Reset
+        </button>
+      </div>
+
+      {/* Maze Grid */}
+      <div className="maze-grid-container">
+        <div className="maze-grid">
+          {FIXED_MAZE.map((row, rowIndex) =>
+            row.map((_, colIndex) => (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                className={`maze-cell ${getCellClass(rowIndex, colIndex)}`}
+              />
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="legend-container">
+        <div className="legend-item">
+          <div className="legend-color cell-start"></div>
+          <span>Start</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color cell-end"></div>
+          <span>Finish</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color cell-wall"></div>
+          <span>Dinding</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color cell-visited"></div>
+          <span>Dikunjungi</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-color cell-path"></div>
+          <span>Jalur Solusi</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SimpleMazeSolver;

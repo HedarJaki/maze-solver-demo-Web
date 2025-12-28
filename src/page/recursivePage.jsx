@@ -6,7 +6,7 @@ function RecursiveSection(){
         <div className="dfs-section">
         <div className="dfs-title">DFS REKURSIF</div>
         <div className="dfs-icon-box">
-          {/* <img src={maze} alt="maze" className="dfs-icon"/>  */}
+        <img src={maze} alt="Maze" className="maze-image" />
         </div>
       </div>
 
