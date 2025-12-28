@@ -184,55 +184,7 @@ const DualMazeSolver = () => {
   };
 
   return (
-    <>
-      <style>{`
-        .main-container {
-          padding: 20px;
-          max-width: 2000px;
-          margin: 0 auto;
-          background: #0f172a;
-          min-height: 100vh;
-        }
-
-        .main-header {
-          text-align: center;
-          margin-bottom: 30px;
-        }
-
-        .main-title {
-          color: #ffffff;
-          font-size: 2.5rem;
-          font-weight: 700;
-          margin-bottom: 10px;
-        }
-
-        .main-subtitle {
-          color: #94a3b8;
-          font-size: 1.1rem;
-        }
-
-        .main-controls {
-          display: flex;
-          gap: 15px;
-          margin-bottom: 30px;
-          justify-content: center;
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .dual-maze-container {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          
-        }
-
-        @media (max-width: 1400px) {
-          .dual-maze-container {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
+        
       <div className="">
         {/* Header Utama */}
         <div className="main-header">
@@ -381,7 +333,6 @@ const DualMazeSolver = () => {
 
         </div>
       </div>
-    </>
   );
 };
 
