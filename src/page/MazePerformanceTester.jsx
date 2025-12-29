@@ -179,9 +179,22 @@ const MazePerformanceTester = () => {
   const runPerformanceTest = () => {
     const size = parseInt(mazeSize);
     
-    if (size < 5 || size > 100) {
-      alert('Ukuran maze harus antara 5-100');
+    // Validasi minimum saja
+    if (size < 5) {
+      alert('Ukuran maze minimal 5×5');
       return;
+    }
+    
+    // Warning untuk maze sangat besar
+    if (size > 100) {
+      const confirm = window.confirm(
+        `⚠️ WARNING: Maze ${size}×${size} sangat besar!\n\n` +
+        `- Browser mungkin freeze/hang\n` +
+        `- Memory usage tinggi\n` +
+        `- Waktu eksekusi bisa >10 detik\n\n` +
+        `Lanjutkan?`
+      );
+      if (!confirm) return;
     }
 
     setIsRunning(true);
@@ -260,7 +273,7 @@ const MazePerformanceTester = () => {
         <div className="perf-header">
           <h1 className="perf-title">Maze Performance Tester</h1>
           <p className="perf-subtitle">
-            Uji performa DFS Iteratif vs Rekursif dengan maze yang di-generate
+            Uji performa DFS Iteratif vs Rekursif dengan maze yang di-generate (UNLIMITED SIZE - Experimental Mode)
           </p>
         </div>
 
@@ -268,11 +281,10 @@ const MazePerformanceTester = () => {
         <div className="test-controls">
           <div className="input-group">
             <label className="control-label">
-              Ukuran Maze (5-100):
+              Ukuran Maze (min: 5):
               <input
                 type="number"
                 min="5"
-                max="100"
                 value={mazeSize}
                 onChange={(e) => setMazeSize(e.target.value)}
                 className="size-input"
