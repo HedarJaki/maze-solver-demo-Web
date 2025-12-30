@@ -9,30 +9,41 @@ const MazePerformanceTester = () => {
   const [currentMaze, setCurrentMaze] = useState(null);
   const [showVisual, setShowVisual] = useState(false);
 
-  // ========== MAZE GENERATOR ==========
+  // ========== MAZE GENERATOR (IMPROVED - GUARANTEED SOLVABLE) ==========
   const generateMaze = (size) => {
     // Inisialisasi maze dengan semua dinding (1)
     const maze = Array(size).fill().map(() => Array(size).fill(1));
     
-    // Stack untuk DFS maze generation
-    const stack = [];
-    const startRow = 0;
-    const startCol = 0;
+    // Buat jalur pasti dari start ke end dulu (guaranteed path)
+    // Simple path: zigzag dari (0,0) ke (size-1, size-1)
+    let row = 0;
+    let col = 0;
     
-    maze[startRow][startCol] = 0;
-    stack.push([startRow, startCol]);
+    while (row < size - 1 || col < size - 1) {
+      maze[row][col] = 0;
+      
+      // Prioritas: kanan dulu, baru bawah
+      if (col < size - 1 && (row === size - 1 || Math.random() > 0.5)) {
+        col++;
+      } else if (row < size - 1) {
+        row++;
+      }
+    }
+    maze[size - 1][size - 1] = 0; // Pastikan end juga jalan
+    
+    // Sekarang tambahkan jalur random dengan DFS untuk variasi
+    const visited = new Set();
+    const stack = [[0, 0]];
+    visited.add('0,0');
     
     const directions = [
-      [-2, 0], // atas (loncat 2 sel)
-      [2, 0],  // bawah
-      [0, -2], // kiri
-      [0, 2]   // kanan
+      [-1, 0], [1, 0], [0, -1], [0, 1]
     ];
 
     while (stack.length > 0) {
-      const [row, col] = stack[stack.length - 1];
+      const [r, c] = stack[stack.length - 1];
       
-      // Shuffle directions untuk random maze
+      // Shuffle directions
       const shuffled = directions
         .map(dir => ({ dir, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
@@ -41,19 +52,20 @@ const MazePerformanceTester = () => {
       let moved = false;
       
       for (const [dr, dc] of shuffled) {
-        const newRow = row + dr;
-        const newCol = col + dc;
+        const newRow = r + dr;
+        const newCol = c + dc;
+        const key = `${newRow},${newCol}`;
         
         if (
           newRow >= 0 && newRow < size &&
           newCol >= 0 && newCol < size &&
-          maze[newRow][newCol] === 1
+          !visited.has(key)
         ) {
-          // Buat jalan ke sel baru
-          maze[newRow][newCol] = 0;
-          // Buat jalan di antara sel
-          maze[row + dr / 2][col + dc / 2] = 0;
-          
+          visited.add(key);
+          // Randomly decide to make it a path
+          if (Math.random() > 0.3) { // 70% chance to be path
+            maze[newRow][newCol] = 0;
+          }
           stack.push([newRow, newCol]);
           moved = true;
           break;
@@ -65,18 +77,16 @@ const MazePerformanceTester = () => {
       }
     }
     
-    // Pastikan start dan end adalah jalan
+    // Pastikan start dan end PASTI jalan
     maze[0][0] = 0;
     maze[size - 1][size - 1] = 0;
     
-    // Tambah beberapa jalan ekstra untuk variasi
-    for (let i = 0; i < size * 2; i++) {
-      const randomRow = Math.floor(Math.random() * size);
-      const randomCol = Math.floor(Math.random() * size);
-      if (randomRow > 0 && randomRow < size - 1 && 
-          randomCol > 0 && randomCol < size - 1) {
-        maze[randomRow][randomCol] = 0;
-      }
+    // Buat beberapa jalur ekstra di sekitar start dan end
+    if (size > 1) {
+      maze[0][1] = 0;
+      maze[1][0] = 0;
+      maze[size - 1][size - 2] = 0;
+      maze[size - 2][size - 1] = 0;
     }
     
     return maze;
@@ -91,22 +101,22 @@ const MazePerformanceTester = () => {
     
     let cellsVisited = 0;
     let pathFound = null;
+    
+    // Mark start as visited
+    visited.add('0,0');
 
     while (stack.length > 0) {
       const [row, col, currentPath] = stack.pop();
-      const key = `${row},${col}`;
       
-      if (visited.has(key)) continue;
-      
-      visited.add(key);
       cellsVisited++;
 
+      // Check if reached destination
       if (row === size - 1 && col === size - 1) {
         pathFound = currentPath;
         break;
       }
 
-      // Push terbalik agar eksplorasi sama dengan rekursif
+      // Explore neighbors
       for (let i = directions.length - 1; i >= 0; i--) {
         const [dr, dc] = directions[i];
         const newRow = row + dr;
@@ -119,6 +129,7 @@ const MazePerformanceTester = () => {
           maze[newRow][newCol] === 0 &&
           !visited.has(newKey)
         ) {
+          visited.add(newKey);  // Mark as visited SAAT PUSH
           stack.push([newRow, newCol, [...currentPath, [newRow, newCol]]]);
         }
       }
@@ -138,20 +149,33 @@ const MazePerformanceTester = () => {
     let cellsVisited = 0;
     
     const dfsHelper = (row, col, currentPath) => {
+      // Boundary check
+      if (row < 0 || row >= size || col < 0 || col >= size) {
+        return null;
+      }
+      
+      // Wall check
+      if (maze[row][col] === 1) {
+        return null;
+      }
+      
       const key = `${row},${col}`;
       
-      // Base cases
-      if (row < 0 || row >= size || col < 0 || col >= size) return null;
-      if (maze[row][col] === 1) return null;
-      if (visited.has(key)) return null;
+      // Visited check
+      if (visited.has(key)) {
+        return null;
+      }
       
+      // Mark as visited
       visited.add(key);
       cellsVisited++;
       
+      // Check if reached destination
       if (row === size - 1 && col === size - 1) {
         return currentPath;
       }
       
+      // Explore all directions
       const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       
       for (const [dr, dc] of directions) {
@@ -163,6 +187,7 @@ const MazePerformanceTester = () => {
         if (result) return result;
       }
       
+      // No path found from this cell
       return null;
     };
     
@@ -217,6 +242,15 @@ const MazePerformanceTester = () => {
     const resultRec = dfsRecursive(maze);
     const endRec = performance.now();
     const timeRec = (endRec - startRec).toFixed(4);
+
+    // Validasi hasil
+    if (!resultIter.found || !resultRec.found) {
+      alert('⚠️ Error: Algoritma gagal menemukan jalur!\nMaze akan di-generate ulang...');
+      setIsRunning(false);
+      // Auto retry dengan maze baru
+      setTimeout(() => runPerformanceTest(), 100);
+      return;
+    }
 
     // Simpan hasil
     const newResult = {
